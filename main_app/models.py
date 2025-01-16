@@ -3,7 +3,7 @@ from django.db import models
 class Project(models.Model):
     name = models.CharField(max_length=200)
 
-# Create your models here.
+# haci se crea tablas de sql  .
 class Task(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
