@@ -1,5 +1,8 @@
+from django.conf import settings
 
 from django.http import HttpResponse
+
+from django.views import View
 
 from .models import Messeges
 
@@ -8,6 +11,13 @@ from django.shortcuts import render, redirect
 from .forms import SendMailForm
 
 from .forms import ContactForm
+
+class map_view(View):
+    template_name = 'map.html'
+    def get(self, request):
+        key = settings.GOOGLE_API_KEY
+        context = {'key': key}
+        return render(request, self.template_name)
 
 def index(request):
     return render(request,'index.html')
