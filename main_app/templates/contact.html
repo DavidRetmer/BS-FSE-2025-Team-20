@@ -3,8 +3,9 @@
 {% block content %} 
 <h1> this is the contact page</h1>
 <p> for contact us here u have the formular</p>
-<form action="">
-    {{form}}
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
     <button>
         submit
     </button>

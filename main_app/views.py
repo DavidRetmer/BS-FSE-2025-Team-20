@@ -1,11 +1,13 @@
 
 from django.http import HttpResponse
 
-from django.shortcuts import render
+from .models import Messeges
+
+from django.shortcuts import render, redirect
 
 from .forms import SendMailForm
 
-from .forms import TaskForm
+from .forms import ContactForm
 
 def index(request):
     return render(request,'index.html')
@@ -17,4 +19,9 @@ def join(request):
     return render(request,'join.html', {'form': SendMailForm()})
 
 def contact(request):
-    return render(request,'contact.html',{'form': TaskForm()})
+    if request.method == 'GET':
+        return render(request,'contact.html',{'form': ContactForm()})
+    else:
+        Messeges.objects.create(title=request.POST['title'], description=request.POST['description'])
+        return redirect('')
+    
