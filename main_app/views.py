@@ -13,11 +13,12 @@ from .forms import SendMailForm
 from .forms import ContactForm
 
 class map_view(View):
-    template_name = 'map.html'
+    template_name = "map.html"
+
     def get(self, request):
         key = settings.GOOGLE_API_KEY
         context = {'key': key}
-        return render(request, self.template_name)
+        return render(request, self.template_name,context)
 
 def index(request):
     return render(request,'index.html')
