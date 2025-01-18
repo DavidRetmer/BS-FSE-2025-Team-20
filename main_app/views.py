@@ -1,18 +1,32 @@
 from django.conf import settings
-
 from django.http import HttpResponse
-
 from django.views import View
-
 from .models import Messeges
-
 from django.shortcuts import render, redirect
+from .forms import SendMailForm,ContactForm,CreateUserForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms 
+from django.contrib import messages
 
-from .forms import SendMailForm
 
-from .forms import ContactForm
+def registerPage(request):
+    form = CreateUserForm()
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+            user = form.cleaned_data.get('username')
+            messages.success(request, 'Account was creating for ' + user)
 
-class map_view(View):
+    context = {'form' : form}
+    return render(request,'accounts/register.html',context)
+
+def loginPage(request):
+    context = {}
+    return render(request,'accounts/login.html',context)
+
+class MapView(View):
     template_name = "map.html"
 
     def get(self, request):
