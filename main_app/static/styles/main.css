@@ -1,3 +1,4 @@
+/* Cambiar el tamaño y la fuente de la barra de navegación */
 .mapholder{
     height: 50px;
     width: 50%;
@@ -8,14 +9,26 @@
 }
 
 .navbar {
-
-    background: #0a9396;
+    color:white;
+    background: #2972b6;
     padding: 20px;
-
+    font-family: 'Arial', sans-serif; /* Cambiar fuente */
+    font-size: 20px; /* Aumentar tamaño de la letra */
+    border-radius: 10px; /* Redondear las esquinas de la barra de navegación */
 }
 
 .navbar ul{
     display: flex;
     justify-content: space-between;
 }
-    
+
+.navbar ul li{
+    list-style: none;
+}
+.navbar ul li a{
+    color:white;
+    text-decoration: none;
+    font-size: 20px; /* Aumentar tamaño de la letra aquí */
+    font-family: 'Arial', sans-serif; /* Cambiar fuente */
+}
+
