@@ -1,23 +1,28 @@
-{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Page</title>
+    <link rel="stylesheet" href="{% static 'styles/contact.css' %}">
+</head>
+<body>
+    <h1>This is the contact page</h1>
+    <p>For contacting us, please use the form below:</p>
 
-{% block content %} 
-<h1>This is the contact page</h1>
-<p>For contacting us, please use the form below:</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-
-<!-- Mensajes de Django (messages.success, messages.error, etc.) -->
-{% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li id="messages_send">{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-
-{% endblock %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li id="messages_send">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
