@@ -1,14 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Detectar el scroll para cambiar la barra de navegación
+window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
-
-    window.addEventListener('scroll', function() {
-        // Si la posición del scroll es mayor a 50px, cambiamos la barra a sólida
-        if (window.scrollY > 50) {
-            navbar.classList.add('solid');  // Añadimos la clase 'solid'
-            navbar.classList.remove('transparent');  // Eliminamos la clase 'transparent'
-        } else {
-            navbar.classList.remove('solid');  // Eliminamos la clase 'solid'
-            navbar.classList.add('transparent');  // Añadimos la clase 'transparent'
-        }
-    });
+    if (window.scrollY > 50) {
+        navbar.classList.remove('transparent');
+        navbar.classList.add('solid');
+    } else {
+        navbar.classList.remove('solid');
+        navbar.classList.add('transparent');
+    }
 });

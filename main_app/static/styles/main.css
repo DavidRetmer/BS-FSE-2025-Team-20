@@ -82,20 +82,21 @@ section {
     text-transform: uppercase;
     position: relative;
     z-index: 1;
+    text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 0, 0, 0.5); 
+    /* Sombra al texto para un efecto de profundidad */
 }
 
 /* Profundidad */
 #home h1::before {
     content: ''; 
     position: absolute;
-    top: 5px; /* Desplazamiento para la sombra */
-    left: 5px; /* Desplazamiento para la sombra */
-    width: 100%;
-    height: 100%;
+    top: -10px; /* Ajusta la sombra para que cubra desde la parte superior */
+    left: -10px; /* Ajusta la sombra para que cubra desde la parte izquierda */
+    right: -10px; /* Ajusta la sombra para que cubra hasta la parte derecha */
+    bottom: -10px; /* Ajusta la sombra para que cubra hasta la parte inferior */
     background: rgba(0, 0, 0, 0.5); /* Sombra más oscura */
     z-index: -1;
-    border-radius: 15px; /* Esquinas redondeadas para la sombra */
-    transform: translate(5px, 5px); /* Da un efecto de profundidad adicional */
+    transform: translate(10px, 10px); /* Desplaza la sombra hacia la derecha y hacia abajo */
 }
 
 /* Sombra al texto para dar efecto 3D */
@@ -103,7 +104,6 @@ section {
     text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 0, 0, 0.5); 
     /* Sombra al texto para un efecto de profundidad */
 }
-
 
 html, body {
     margin: 0;
@@ -158,5 +158,3 @@ html, body {
 #about ul li {
     margin-bottom: 10px;           /* Espaciado entre elementos de la lista */
 }
-
-
