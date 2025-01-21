@@ -7,6 +7,8 @@
     padding: 15px 30px;
     z-index: 1000;  /* Asegúrate de que la barra de navegación esté en la parte superior */
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    display: flex;
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
 }
 
 /* Estado inicial: transparente */
@@ -17,7 +19,7 @@
 
 /* Estado con fondo sólido al hacer scroll */
 .navbar.solid {
-    background-color: #ffcc5c; /* Color de fondo sólido */
+    background-color: #3b5998; /* Color de fondo sólido */
     color: black;  /* Color de texto negro cuando la barra es sólida */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para la barra sólida */
 }
@@ -26,15 +28,29 @@
 .navbar ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 50px;
     margin: 0;
     padding: 0;
 }
 
+.navbar-left {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar-right {
+    display: flex;
+    gap: 20px;
+    margin-left: 0; /* Quita cualquier desplazamiento innecesario */
+}
+
 .navbar ul li a {
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
     transition: color 0.3s;
+}
+.navbar-right a {
+    padding: 5px 60px; /* Ajusta el espaciado interno */
 }
 
 .navbar.transparent ul li a {
@@ -42,7 +58,7 @@
 }
 
 .navbar.solid ul li a {
-    color: rgb(0, 0, 0);  /* Color negro en los enlaces cuando la barra es sólida */
+    color: rgb(255, 255, 255);  /* Color negro en los enlaces cuando la barra es sólida */
 }
 
 /* Ajuste para las secciones */
@@ -157,4 +173,20 @@ html, body {
 
 #about ul li {
     margin-bottom: 10px;           /* Espaciado entre elementos de la lista */
+}
+/* Estilo para el botón de login */
+.btn-login {
+    background-color: transparent; /* Fondo transparente */
+    color: inherit; /* Mantiene el color del texto */
+    padding: 1px 1px; /* Espaciado interno del botón */
+    border-radius: 1px; /* Bordes redondeados */
+    cursor: pointer; /* Cursor de puntero al pasar sobre el botón */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Transiciones suaves */
+    border: 2px solid transparent; /* Contorno transparente inicialmente */
+}
+
+.btn-login:hover {
+    background-color: #adb9d3; /* Color de fondo del botón al pasar el cursor */
+    color: black; /* Color del texto del botón al pasar el cursor */
+    border: 1px solid rgba(0, 0, 0, 0.137); /* Contorno negro al pasar el cursor */
 }
