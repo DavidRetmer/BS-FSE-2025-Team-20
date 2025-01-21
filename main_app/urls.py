@@ -2,9 +2,9 @@ from django.urls import path
 from . import views
 from .views import MapView
 urlpatterns = [   
-     path('',views.index,name = 'home'),
+     path('', views.index, name='home'),
+     path('index/', views.index, name='index'),
      path('about/',views.about, name='about'),
-     path('join/',views.join, name='join'),
      path('contact/',views.contact, name='contact'),
      path('map/',MapView.as_view(), name='map'),
      path('register/',views.registerPage,name='register'),

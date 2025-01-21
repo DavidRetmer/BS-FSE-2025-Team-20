@@ -5,10 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Football Community</title>
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
 </head>
+
 <body>
+<<<<<<< HEAD
     <nav class="navbar">
         <ul>
             <li>
@@ -42,5 +44,48 @@
 
 
     {% endblock %}
+=======
+    <!-- Barra de navegación -->
+    <nav class="navbar transparent">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#join">Join</a></li>
+            <li class="login"><a href="login/">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección Home -->
+    <section id="home">
+        <h1>Football Community</h1>
+    </section>
+
+    <!-- Sección About -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>The Football Community is a local network of football lovers: players, fans, sharing our passion for the game.</p>
+        <p>Looking for a match? We’ve got you covered</p>
+        <h3>How Does It Work?</h3>
+        <ul>
+            <li><strong>Register:</strong> Create your profile and join the community.</li>
+            <li><strong>Find a Game:</strong> Search for local matches or tournaments.</li>
+            <li><strong>Join or Organize:</strong> Join games or create your own.</li>
+            <li><strong>Play:</strong> Get on the field and enjoy!</li>
+        </ul>
+    </section>
+
+    <!-- Sección Join -->
+    <section id="join">
+        <div class="content">
+            <h2>Join Us</h2>
+            <p>Join us and play a match now!</p>
+            <a href="register" class="register-link">Register Here</a>
+        </div>
+    </section>
+
+    {% block content %}{% endblock %}
+
+    <script src="{% static 'js/scripts.js' %}"></script>
+>>>>>>> nueva-rama
 </body>
 </html>
