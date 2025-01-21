@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %} 
-<h1> this is the contact page</h1>
-<p> for contact us here u have the formular</p>
+<h1>This is the contact page</h1>
+<p>For contacting us, please use the form below:</p>
+
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <button>
-        submit
-    </button>
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
 </form>
+
+<!-- Mensajes de Django (messages.success, messages.error, etc.) -->
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li id="messages_send">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+
 {% endblock %}
