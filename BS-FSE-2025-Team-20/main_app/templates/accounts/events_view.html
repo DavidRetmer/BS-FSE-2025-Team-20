@@ -1,0 +1,15 @@
+<!-- main_app/templates/events_view.html -->
+{% extends 'accounts/base_generic.html' %}
+
+{% block content %}
+  <h2>Football Game Events</h2>
+  <ul>
+    {% for event in events %}
+      <li>
+        <strong>{{ event.title }}</strong> - {{ event.place }}<br>
+        Date & Time: {{ event.event_time }}<br>
+        Description: {{ event.description }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

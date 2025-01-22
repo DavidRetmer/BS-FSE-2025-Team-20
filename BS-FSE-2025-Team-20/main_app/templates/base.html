@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+      {% block extra_css %}
+  {% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li>
+                <a href="/home">Home</a>
+            </li>
+            <li>
+                <a href="/about">About</a>
+            </li>
+            <li>
+                <a href="/contact">Contact</a>
+            </li>
+         <li>
+                <a href="/login/">Login</a>
+            </li>
+         <li>
+                <a href="/login_admin/">LoginAdmin</a>
+            </li>
+         <li>
+               <li>
+                <a href="/login_admin/">Admin</a>
+            </li>
+         <li>
+                <a href="/register/">Sign-Up</a>
+            </li>
+            <li>
+                <a href="/map">Map</a>
+            </li>
+
+            <!-- التحقق من تسجيل الدخول -->
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/login">Login</a>
+                </li>
+                <li>
+                    <a href="/register">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Login form example -->
+    {% block login_form %}
+    {% if request.path == '/login' %}
+        <div class="form-container">
+            <h2>Login</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    {% endif %}
+    {% endblock %}
+
+    <!-- Register form example -->
+    {% block register_form %}
+    {% if request.path == '/register' %}
+        <div class="form-container">
+            <h2>Register</h2>
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    {% endif %}
+    {% endblock %}
+</body>
+</html>

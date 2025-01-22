@@ -1,0 +1,204 @@
+{% extends 'accounts/base_generic.html' %}
+
+{% block content %}
+  <h2 class="page-title">Football Game Events</h2>
+
+  <!-- רשימת האירועים -->
+  <ul class="events-list">
+    {% for event in events %}
+      <li id="event-{{ event.id }}" class="event-item">
+        <div class="event-header">
+          <strong>{{ event.title }}</strong> - <span class="event-place">{{ event.place }}</span>
+        </div>
+        <div class="event-details">
+          <p><strong>Date & Time:</strong> {{ event.event_time }}</p>
+          <p><strong>Description:</strong> {{ event.description }}</p>
+        </div>
+
+        <div class="event-actions">
+          <!-- כפתור הצגת המפה -->
+          <button class="btn show-map-btn" onclick="showMap({{ event.latitude }}, {{ event.longitude }}, '{{ event.title }}')">Show on Map</button>
+
+          <!-- כפתור מחיקה -->
+          <button class="btn delete-event" data-event-id="{{ event.id }}">Delete Event</button>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- כפתור להוספת אירוע חדש -->
+  <a href="{% url 'add_event' %}" class="btn add-new-event">Add New Event</a>
+
+  <!-- מיכל המפה (בהתחלה מוסתר) -->
+  <div id="map-container" style="display:none; width: 100%; height: 400px; margin-top: 20px;">
+    <div id="map" style="height: 100%;"></div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // יצירת המפה הגלובלית (אפס)
+    var map;
+
+    // פונקציה שמטפלת בלחיצה על כפתור המחיקה
+    document.querySelectorAll('.delete-event').forEach(button => {
+      button.addEventListener('click', function() {
+        // מאחסנים את מזהה האירוע
+        const eventId = this.getAttribute('data-event-id');
+
+        // שואלים את המשתמש אם הוא בטוח שהוא רוצה למחוק את האירוע
+        if (confirm('Are you sure you want to delete this event?')) {
+          // שולחים בקשה למחוק את האירוע בעזרת AJAX
+          fetch(`/delete_event/${eventId}/`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+            }
+          })
+          .then(response => {
+            if (response.ok) {
+              // אם הבקשה הצליחה, מוחקים את האלמנט מה-DOM
+              document.getElementById('event-' + eventId).remove();
+            } else {
+              alert('Failed to delete event');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while deleting the event');
+          });
+        }
+      });
+    });
+
+    // פונקציה שמציגה את המפה עבור כל אירוע
+    function showMap(lat, lon, title) {
+      // הצגת המפה במיכל המפה (מסתיר אם פתוח)
+      var mapContainer = document.getElementById('map-container');
+      mapContainer.style.display = 'block'; // ודא שהמפה תוצג
+
+      // אם המפה כבר קיימת, נוודא שהיא מנוקה ומאופסת
+      if (map) {
+        map.remove();
+      }
+
+      // יצירת המפה והגדרת המיקום
+      map = L.map('map').setView([lat, lon], 13); // הגדרת המפה עם קואורדינטות האירוע
+
+      // הוספת שכבת Tile ל-OpenStreetMap
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      // הוספת סימן במיקום החדש
+      var marker = L.marker([lat, lon]).addTo(map);
+      marker.bindPopup(`<b>${title}</b><br>Location: ${lat}, ${lon}`).openPopup();
+    }
+  </script>
+
+  <!-- CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-title {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 2em;
+      color: #333;
+    }
+
+    .events-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+
+    .event-item {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .event-item:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .event-header {
+      font-size: 1.5em;
+      color: #333;
+    }
+
+    .event-place {
+      color: #007BFF;
+      font-weight: normal;
+    }
+
+    .event-details {
+      margin: 10px 0;
+      font-size: 1em;
+      color: #555;
+    }
+
+    .event-actions {
+      margin-top: 10px;
+    }
+
+    .btn {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      margin-right: 10px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .show-map-btn {
+      background-color: #28a745;
+    }
+
+    .show-map-btn:hover {
+      background-color: #218838;
+    }
+
+    .delete-event {
+      background-color: #ff4d4d;
+    }
+
+    .delete-event:hover {
+      background-color: #e60000;
+    }
+
+    .add-new-event {
+      display: block;
+      background-color: #007BFF;
+      margin: 40px auto;
+      width: 200px;
+      text-align: center;
+    }
+
+    #map-container {
+      margin-top: 20px;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+  </style>
+
+{% endblock %}

@@ -1,0 +1,36 @@
+<!-- main_app/templates/base_generic.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Project{% endblock %}</title>
+  {% block extra_css %}
+  {% endblock %}
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Football Event Site</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'events' %}">Events</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+                <li><a href="{% url 'add_event' %}">Add Event</a></li>
+                 <li><a href="{% url 'login' %}">LogIn</a></li>
+                <li><a href="{% url 'admin_login' %}">LogIn Admin</a></li>
+                 <li><a href="{% url 'register' %}">SignUp</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>© 2025 Football Event Site</p>
+    </footer>
+</body>
+</html>
