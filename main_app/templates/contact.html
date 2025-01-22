@@ -1,23 +1,23 @@
-{% extends 'base.html' %}
+{% extends 'interfacePage.html' %}
 
-{% block content %} 
-<h1>This is the contact page</h1>
-<p>For contacting us, please use the form below:</p>
+{% block content %}
+<div class="contact-page">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you! Please use the form below to get in touch.</p>
 
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+    <form method="POST" class="contact-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
 
-<!-- Mensajes de Django (messages.success, messages.error, etc.) -->
-{% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li id="messages_send">{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-
+    <!-- Mensajes de Django (messages.success, messages.error, etc.) -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 {% endblock %}

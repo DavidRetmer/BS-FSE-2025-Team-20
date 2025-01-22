@@ -14,5 +14,5 @@ class SendMailForm(forms.Form):
     
 
 class ContactForm(forms.Form):
-    title = forms.CharField(label="put our mail here",max_length=200)
-    description = forms.CharField(label="descrive ur problem here :" ,widget=forms.Textarea)  
+    title = forms.EmailField(label="put our mail here", max_length=200)
+    description = forms.CharField(label="describe your problem here:", widget=forms.Textarea)
