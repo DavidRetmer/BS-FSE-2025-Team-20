@@ -1,26 +1,78 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>CRM</title>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-	<link href="{% static '/css/main.css'  %}" rel="stylesheet" type="text/css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Home</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-	{% include 'accounts/navbar.html' %}
-
-	<div class="container-fluid">
-	{% block content %}
-
-	 
-	{% endblock content %}
-	</div>
-
-	{% include 'accounts/footer.html' %}
-
+    <body>
+        <header class="navbar">
+          <div class="container">
+            <h1 class="logo">MyApp</h1>
+            <nav>
+              <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/logout" class="logout-btn">Logout</a></li>
+              </ul>
+            </nav>
+          </div>
+        </header>
+      
+        <main>
+          <section class="hero">
+            <div class="container">
+              <h2>Welcome to User Home</h2>
+              <p>Explore the amazing features of our platform.</p>
+            </div>
+          </section>
+      
+          <section id="features" class="features">
+            <div class="container">
+              <h3>Features</h3>
+              <div class="features-grid">
+                <div class="feature-item">
+                  <h4>Feature 1</h4>
+                  <p>Description of Feature 1.</p>
+                </div>
+                <div class="feature-item">
+                  <h4>Feature 2</h4>
+                  <p>Description of Feature 2.</p>
+                </div>
+                <div class="feature-item">
+                  <h4>Feature 3</h4>
+                  <p>Description of Feature 3.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+      
+          <section id="about" class="about">
+            <div class="container">
+              <h3>About</h3>
+              <p>Information about the application or platform goes here.</p>
+            </div>
+          </section>
+      
+          <section id="contact" class="contact">
+            <div class="container">
+              <h3>Contact</h3>
+              <p>Have questions? Reach out to us at <a href="mailto:support@example.com">support@example.com</a>.</p>
+            </div>
+          </section>
+        </main>
+      
+        <footer>
+          <div class="container">
+            <p>&copy; 2025 MyApp. All rights reserved.</p>
+          </div>
+        </footer>
+      </body>
+      </html>
+      
 </body>
-
 </html>
