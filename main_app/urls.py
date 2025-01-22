@@ -8,5 +8,8 @@ urlpatterns = [
      path('contact/',views.contact, name='contact'),
      path('map/',MapView.as_view(), name='map'),
      path('register/',views.registerPage,name='register'),
-     path('login/',views.loginPage,name='login')
+     path('login/',views.loginPage,name='login'),
+     path('logout/', views.logoutUser, name='logout'),
+     path('interface/', views.interfacePage, name='interface')
+
     ]
