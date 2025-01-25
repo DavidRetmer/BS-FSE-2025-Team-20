@@ -41,7 +41,7 @@ urlpatterns = [
 
     # Messaging URLs
     path('inbox/', views.inbox, name='inbox'),
-    path('messages/send/<uuid:recipient_id>/', views.send_message, name='send_message'),
+    path('messages/send/<int:recipient_id>/', views.send_message, name='send_message'),
     path('messages/<uuid:message_id>/', views.message_detail, name='message_detail'),
 
     # Admin Panel URLs
