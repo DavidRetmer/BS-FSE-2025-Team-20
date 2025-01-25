@@ -1,0 +1,127 @@
+{% extends "community/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">About Football Community</h1>
+                    
+                    <div class="row mb-5">
+                        <div class="col-md-6">
+                            <h3>Our Mission</h3>
+                            <p class="lead">
+                                To bring football enthusiasts together, making it easier for players of all skill levels 
+                                to find matches, organize games, and build lasting connections through the beautiful game.
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h3>Who We Are</h3>
+                            <p>
+                                Look for people in the community in the area who want to join soccer games.
+                                  Our Mission.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-5">
+                        <div class="col-md-12">
+                            <h3 class="text-center mb-4">What We Offer</h3>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-futbol fa-3x mb-3 text-primary"></i>
+                                            <h4>Find Games</h4>
+                                            <p>
+                                                Easily discover football games happening in your area, filtered by skill level 
+                                                and location.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-users fa-3x mb-3 text-primary"></i>
+                                            <h4>Organize Events</h4>
+                                            <p>
+                                                Create and manage your own football events, from casual kickabouts to 
+                                                organized tournaments.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fas fa-comments fa-3x mb-3 text-primary"></i>
+                                            <h4>Community</h4>
+                                            <p>
+                                                Connect with other players, share experiences, and build a network of 
+                                                football friends.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h3 class="text-center mb-4">Join Our Community</h3>
+                            <p class="text-center">
+                                Whether you're a beginner looking to improve or an experienced player seeking competitive 
+                                matches, Football Community has something for everyone. Join us today and be part of a 
+                                growing community of football enthusiasts.
+                            </p>
+                            <div class="text-center mt-4">
+                                <a href="{% url 'community:register' %}" class="btn btn-primary btn-lg">Sign Up Now</a>
+                                <a href="{% url 'community:event_list' %}" class="btn btn-outline-primary btn-lg ms-3">Browse Events</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="text-center mb-4">Contact Us</h3>
+                            <div class="row justify-content-center">
+                                <div class="col-md-8">
+                                    <form method="post" action="{% url 'community:contact' %}" class="contact-form">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" class="form-control" id="name" name="name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="subject" class="form-label">Subject</label>
+                                            <input type="text" class="form-control" id="subject" name="subject" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="message" class="form-label">Message</label>
+                                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Send Message</button>
+                                        </div>
+                                    </form>
+                                    <div class="text-center mt-4">
+                                        <p>Or reach us directly at:</p>
+                                        <p><i class="fas fa-envelope"></i> <a href="mailto:contact@footballcommunity.com">contact@footballcommunity.com</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

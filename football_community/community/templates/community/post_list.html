@@ -1,0 +1,67 @@
+{% extends "community/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Community Posts</h2>
+                <a href="{% url 'community:post_create' %}" class="btn btn-primary">Create New Post</a>
+            </div>
+
+            {% if posts %}
+                {% for post in posts %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{% url 'community:post_detail' post_id=post.id %}" class="text-decoration-none">
+                                    {{ post.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted">
+                                Posted by {{ post.author.username }} on {{ post.created_at|date:"F j, Y" }}
+                                • {{ post.comment_count }} comment{{ post.comment_count|pluralize }}
+                            </p>
+                            <p class="card-text">{{ post.content|truncatewords:50 }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                {% if posts.has_other_pages %}
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {% if posts.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ posts.previous_page_number }}">&laquo; Previous</a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in posts.paginator.page_range %}
+                                {% if posts.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if posts.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ posts.next_page_number }}">Next &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    No posts yet. Be the first to create one!
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

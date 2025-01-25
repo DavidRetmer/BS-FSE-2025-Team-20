@@ -1,0 +1,196 @@
+{% extends "community/base.html" %}
+
+{% block extra_head %}
+<!-- OpenStreetMap CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""/>
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+        margin-bottom: 1rem;
+        border-radius: 0.25rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">{% if form.instance.pk %}Edit Event{% else %}Create Event{% endif %}</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="form-group mb-3">
+                            <label for="id_title">Title:</label>
+                            <input type="text" name="title" id="id_title" class="form-control" 
+                                   value="{{ form.title.value|default:'' }}" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="id_description">Description:</label>
+                            <textarea name="description" id="id_description" class="form-control" rows="4" required>{{ form.description.value|default:'' }}</textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="id_location">Location:</label>
+                            <input type="text" name="location" id="id_location" class="form-control"
+                                   value="{{ form.location.value|default:'' }}" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label>Select Location on Map:</label>
+                            <div id="map"></div>
+                            <!-- Hidden inputs for coordinates -->
+                            <input type="hidden" name="location_latitude" id="id_location_latitude" 
+                                   value="{{ form.location_latitude.value|default:'' }}" required>
+                            <input type="hidden" name="location_longitude" id="id_location_longitude" 
+                                   value="{{ form.location_longitude.value|default:'' }}" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="id_datetime">Date and Time:</label>
+                            <input type="datetime-local" name="datetime" id="id_datetime" class="form-control"
+                                   value="{{ form.datetime.value|date:'Y-m-d\TH:i' }}" required>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="id_max_players">Maximum Players:</label>
+                                <input type="number" name="max_players" id="id_max_players" class="form-control"
+                                       value="{{ form.max_players.value|default:'10' }}" min="2" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_skill_level_filter">Skill Level:</label>
+                                <select name="skill_level_filter" id="id_skill_level_filter" class="form-select">
+                                    <option value="">Any Skill Level</option>
+                                    <option value="beginner" {% if form.skill_level_filter.value == 'beginner' %}selected{% endif %}>Beginner</option>
+                                    <option value="intermediate" {% if form.skill_level_filter.value == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                                    <option value="advanced" {% if form.skill_level_filter.value == 'advanced' %}selected{% endif %}>Advanced</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                {% if form.instance.pk %}Update Event{% else %}Create Event{% endif %}
+                            </button>
+                            <a href="{% url 'community:event_list' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<!-- OpenStreetMap JavaScript -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the map
+        const map = L.map('map').setView([0, 0], 2);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        let marker;
+        
+        // Function to update marker position
+        function updateMarker(lat, lng) {
+            if (marker) {
+                marker.setLatLng([lat, lng]);
+            } else {
+                marker = L.marker([lat, lng], {draggable: true}).addTo(map);
+                
+                // Update coordinates when marker is dragged
+                marker.on('dragend', function(e) {
+                    const position = marker.getLatLng();
+                    document.getElementById('id_location_latitude').value = position.lat;
+                    document.getElementById('id_location_longitude').value = position.lng;
+                    
+                    // Reverse geocode to update location name
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.lat}&lon=${position.lng}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.display_name) {
+                                document.getElementById('id_location').value = data.display_name;
+                            }
+                        });
+                });
+            }
+            map.setView([lat, lng], 15);
+        }
+        
+        // Try to get user's current location
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                updateMarker(lat, lng);
+                document.getElementById('id_location_latitude').value = lat;
+                document.getElementById('id_location_longitude').value = lng;
+                
+                // Get location name from coordinates
+                fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.display_name) {
+                            document.getElementById('id_location').value = data.display_name;
+                        }
+                    });
+            });
+        }
+        
+        // If editing an event, show existing location
+        const existingLat = document.getElementById('id_location_latitude').value;
+        const existingLng = document.getElementById('id_location_longitude').value;
+        if (existingLat && existingLng) {
+            updateMarker(parseFloat(existingLat), parseFloat(existingLng));
+        }
+        
+        // Handle map clicks
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+            updateMarker(lat, lng);
+            document.getElementById('id_location_latitude').value = lat;
+            document.getElementById('id_location_longitude').value = lng;
+            
+            // Get location name from coordinates
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.display_name) {
+                        document.getElementById('id_location').value = data.display_name;
+                    }
+                });
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %} 

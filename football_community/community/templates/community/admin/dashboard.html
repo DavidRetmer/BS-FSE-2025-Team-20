@@ -1,0 +1,140 @@
+{% extends "community/admin/base_admin.html" %}
+
+{% block admin_content %}
+<div class="container-fluid py-4">
+    <h1 class="h2 mb-4">Dashboard</h1>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Users</h6>
+                            <h2 class="display-4 mb-0">{{ total_users }}</h2>
+                        </div>
+                        <i class="fas fa-users fa-2x"></i>
+                    </div>
+                    <p class="card-text mt-3">
+                        <span class="badge bg-light text-primary">+{{ new_users_count }}</span>
+                        New this week
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Events</h6>
+                            <h2 class="display-4 mb-0">{{ total_events }}</h2>
+                        </div>
+                        <i class="fas fa-calendar fa-2x"></i>
+                    </div>
+                    <p class="card-text mt-3">
+                        <span class="badge bg-light text-success">+{{ new_events_count }}</span>
+                        New this week
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-info text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="card-title mb-0">Total Posts</h6>
+                            <h2 class="display-4 mb-0">{{ total_posts }}</h2>
+                        </div>
+                        <i class="fas fa-comments fa-2x"></i>
+                    </div>
+                    <p class="card-text mt-3">
+                        <span class="badge bg-light text-info">+{{ new_posts_count }}</span>
+                        New this week
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+        <!-- Recent Users -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Users</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for user in recent_users %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">{{ user.username }}</h6>
+                                        <small class="text-muted">{{ user.date_joined|date }}</small>
+                                    </div>
+                                    <a href="{% url 'community:admin_users' %}?user={{ user.id }}" 
+                                       class="btn btn-sm btn-outline-primary">View</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Events -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Events</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for event in recent_events %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">{{ event.title }}</h6>
+                                        <small class="text-muted">{{ event.created_at|date }}</small>
+                                    </div>
+                                    <a href="{% url 'community:admin_events' %}?event={{ event.id }}" 
+                                       class="btn btn-sm btn-outline-primary">View</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Posts -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Posts</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        {% for post in recent_posts %}
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-0">{{ post.title }}</h6>
+                                        <small class="text-muted">{{ post.created_at|date }}</small>
+                                    </div>
+                                    <a href="{% url 'community:admin_posts' %}?post={{ post.id }}" 
+                                       class="btn btn-sm btn-outline-primary">View</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

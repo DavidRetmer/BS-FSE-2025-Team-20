@@ -1,0 +1,152 @@
+{% extends "community/admin/base_admin.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4 text-gray-800">Reports Management</h1>
+
+    <!-- Reported Posts -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Reported Posts</h6>
+        </div>
+        <div class="card-body">
+            {% if reported_posts %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Report Reason</th>
+                                <th>Reported At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for post in reported_posts %}
+                            <tr>
+                                <td><a href="{% url 'community:post_detail' post.id %}">{{ post.title }}</a></td>
+                                <td>{{ post.author.username }}</td>
+                                <td>{{ post.report_reason }}</td>
+                                <td>{{ post.reported_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="content_type" value="post">
+                                        <input type="hidden" name="content_id" value="{{ post.id }}">
+                                        <button type="submit" name="action" value="dismiss" class="btn btn-success btn-sm">
+                                            Dismiss
+                                        </button>
+                                        <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">No reported posts at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Reported Events -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Reported Events</h6>
+        </div>
+        <div class="card-body">
+            {% if reported_events %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Organizer</th>
+                                <th>Report Reason</th>
+                                <th>Reported At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in reported_events %}
+                            <tr>
+                                <td><a href="{% url 'community:event_detail' event.id %}">{{ event.title }}</a></td>
+                                <td>{{ event.organizer.username }}</td>
+                                <td>{{ event.report_reason }}</td>
+                                <td>{{ event.reported_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="content_type" value="event">
+                                        <input type="hidden" name="content_id" value="{{ event.id }}">
+                                        <button type="submit" name="action" value="dismiss" class="btn btn-success btn-sm">
+                                            Dismiss
+                                        </button>
+                                        <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">No reported events at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Reported Users -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Reported Users</h6>
+        </div>
+        <div class="card-body">
+            {% if reported_users %}
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Report Reason</th>
+                                <th>Reported At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in reported_users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.report_reason }}</td>
+                                <td>{{ user.reported_at|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    <form method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="content_type" value="user">
+                                        <input type="hidden" name="content_id" value="{{ user.id }}">
+                                        <button type="submit" name="action" value="dismiss" class="btn btn-success btn-sm">
+                                            Dismiss
+                                        </button>
+                                        <button type="submit" name="action" value="delete" class="btn btn-danger btn-sm">
+                                            Ban User
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center">No reported users at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 
