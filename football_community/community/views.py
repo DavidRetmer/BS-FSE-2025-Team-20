@@ -48,6 +48,7 @@ def profile(request):
     
     context = {
         'form': form,
+        'profile_user': request.user,
         'organized_events': request.user.organized_events.all()[:5],
         'participated_events': request.user.participated_events.all()[:5],
     }

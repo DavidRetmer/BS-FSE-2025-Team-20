@@ -52,6 +52,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# Session settings
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_SECURE = False  # Set to True in production
+CSRF_COOKIE_SECURE = False  # Set to True in production
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
@@ -138,3 +143,10 @@ LOGOUT_REDIRECT_URL = 'community:home'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # For development, prints emails to console
 DEFAULT_FROM_EMAIL = 'noreply@footballcommunity.com'
 CONTACT_EMAIL = 'contact@footballcommunity.com'
+
+# Remove the SMTP settings since we're using console backend
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = ''
+# EMAIL_HOST_PASSWORD = ''
